@@ -44,6 +44,10 @@ function App() {
     }
   };
 
+  const clearAll = () => {
+    setList([]);
+  };
+  
   useEffect(() => {
     const time = setTimeout(() => {
       setAlert(null);
@@ -99,7 +103,9 @@ function App() {
               />
             ))}
           </div>
-          <button className="clear-btn">clear items</button>
+          <button onClick={clearAll} className="clear-btn">
+            clear items
+          </button>
         </div>
       ) : (
         ""
