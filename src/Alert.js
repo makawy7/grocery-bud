@@ -16,7 +16,7 @@ function Alert({ alert }) {
       ) : (
         ""
       )}
-      {alert === "changed" ? (
+      {alert === "edited" ? (
         <p className="alert alert-success">Item Updated!</p>
       ) : (
         ""

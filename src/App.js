@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from "react";
-import Grocery from "./Grocery";
+import Item from "./Item";
 import Alert from "./Alert";
 
 function App() {
   const [list, setList] = useState([]);
   const inputRef = useRef(null);
+  const editRef = useRef(null);
   const [alert, setAlert] = useState(null);
+  const [action, setAction] = useState("submit");
 
   const addToList = (e) => {
     e.preventDefault();
@@ -14,6 +16,27 @@ function App() {
     } else {
       setAlert("success");
       setList([...list, inputRef.current.value]);
+      inputRef.current.value = "";
+    }
+  };
+
+  const editListItem = (e) => {
+    e.preventDefault();
+    const currentItem = editRef.current;
+
+    if (inputRef.current.value === "") {
+      setAlert("error");
+    } else {
+      setList(
+        list.map((item) => {
+          if (item === currentItem) {
+            return inputRef.current.value;
+          }
+          return item;
+        })
+      );
+      setAlert("edited");
+      setAction("submit");
       inputRef.current.value = "";
     }
   };
@@ -31,7 +54,6 @@ function App() {
     inputRef.current.focus();
   }, []);
 
-  console.log(list);
   return (
     <section className="section-center">
       <Alert alert={alert} />
@@ -44,13 +66,34 @@ function App() {
             className="grocery"
             placeholder="e.g. eggs"
           />
-          <button onClick={addToList} type="submit" className="submit-btn">
-            submit
-          </button>
+          {action === "submit" ? (
+            <button onClick={addToList} type="submit" className="submit-btn">
+              submit
+            </button>
+          ) : (
+            <button onClick={editListItem} type="submit" className="submit-btn">
+              Edit
+            </button>
+          )}
         </div>
       </form>
       {list.length ? (
-        <Grocery list={list} setList={setList} setAlert={setAlert} />
+        <div className="grocery-container">
+          <div className="grocery-list">
+            {list.map((item, idx) => (
+              <Item
+                key={idx}
+                item={item}
+                setList={setList}
+                setAlert={setAlert}
+                setAction={setAction}
+                inputRef={inputRef}
+                editRef={editRef}
+              />
+            ))}
+          </div>
+          <button className="clear-btn">clear items</button>
+        </div>
       ) : (
         ""
       )}
