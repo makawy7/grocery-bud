@@ -3,7 +3,10 @@ import Item from "./Item";
 import Alert from "./Alert";
 
 function App() {
-  const [list, setList] = useState([]);
+  const [list, setList] = useState(() => {
+    const localList = JSON.parse(localStorage.getItem("list"));
+    return localList || [];
+  });
   const inputRef = useRef(null);
   const editRef = useRef(null);
   const [alert, setAlert] = useState(null);
@@ -53,6 +56,10 @@ function App() {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("list", JSON.stringify(list));
+  }, [list]);
 
   return (
     <section className="section-center">
