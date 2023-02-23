@@ -1,7 +1,14 @@
 import { useRef } from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
-function Item({ item, setList, setAlert, setAction, inputRef, editRef }) {
+function Item({
+  item,
+  setList,
+  setAlert,
+  setAction,
+  inputRef = { current: null },
+  editRef = { current: null },
+}) {
   const itemRef = useRef(null);
   const removeItem = () => {
     setList((prev) =>

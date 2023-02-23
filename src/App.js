@@ -47,7 +47,7 @@ function App() {
   const clearAll = () => {
     setList([]);
   };
-  
+
   useEffect(() => {
     const time = setTimeout(() => {
       setAlert(null);
@@ -77,11 +77,14 @@ function App() {
             className="grocery"
             placeholder="e.g. eggs"
           />
-          {action === "submit" ? (
+
+          {action === "submit" && (
             <button onClick={addToList} type="submit" className="submit-btn">
               submit
             </button>
-          ) : (
+          )}
+
+          {action === "edit" && (
             <button onClick={editListItem} type="submit" className="submit-btn">
               Edit
             </button>
@@ -107,9 +110,7 @@ function App() {
             clear items
           </button>
         </div>
-      ) : (
-        ""
-      )}
+      ) : null}
     </section>
   );
 }
